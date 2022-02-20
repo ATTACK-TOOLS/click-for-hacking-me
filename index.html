@@ -127,8 +127,35 @@
     }
     </style>
         
-        
-background: url(https://i.imgur.com/34uOiaV.png)    
+</style>
+  <script type="text/javascript">
+var snowStorm = null;
+function SnowStorm() {
+  this.flakesMax = 128;         
+  this.flakesMaxActive = 64;     
+  this.animationInterval = 33;   
+  this.flakeBottom = null;
+  this.targetElement = null;
+  this.followMouse = true; 
+  this.snowColor = 'red';      
+  this.snowCharacter = '&bull;'; 
+  this.snowStick = true;      
+  this.useMeltEffect = true; 
+  this.useTwinkleEffect = false;  
+  this.usePositionFixed = false; 
+  this.flakeLeftOffset = 0;     
+  this.flakeRightOffset = 0;    
+  this.flakeWidth = 8;       
+  this.flakeHeight = 8;     
+  this.vMaxX = 5;           
+  this.vMaxY = 4;       
+  this.zIndex = 0;       
+  var addEvent = (typeof(window.attachEvent)=='undefined'?function(o,evtName,evtHandler) {
+  return o.addEventListener(evtName,evtHandler,false);
+  }:function(o,evtName,evtHandler) {
+  return o.attachEvent('on'+evtName,evtHandler);
+  });
+
         
         
     <center>
