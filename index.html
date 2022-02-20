@@ -127,34 +127,53 @@
     }
     </style>
         
-</style>
-var snowStorm = null;
-function SnowStorm() {
-  this.flakesMax = 128;         
-  this.flakesMaxActive = 64;     
-  this.animationInterval = 33;   
-  this.flakeBottom = null;
-  this.targetElement = null;
-  this.followMouse = true; 
-  this.snowColor = 'red';      
-  this.snowCharacter = '&bull;'; 
-  this.snowStick = true;      
-  this.useMeltEffect = true; 
-  this.useTwinkleEffect = false;  
-  this.usePositionFixed = false; 
-  this.flakeLeftOffset = 0;     
-  this.flakeRightOffset = 0;    
-  this.flakeWidth = 8;       
-  this.flakeHeight = 8;     
-  this.vMaxX = 5;           
-  this.vMaxY = 4;       
-  this.zIndex = 0;       
-  var addEvent = (typeof(window.attachEvent)=='undefined'?function(o,evtName,evtHandler) {
-  return o.addEventListener(evtName,evtHandler,false);
-  }:function(o,evtName,evtHandler) {
-  return o.attachEvent('on'+evtName,evtHandler);
-  });
+function redrawScene() {
+    resizeWindow();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    findSiblings();
+    var i, node, distance;
+    for (i = 0; i < NODES_QTY; i++) {
+      node = nodes[i];
+      distance = calcDistance({
+        x: mouse.x,
+        y: mouse.y
+      }, node);
+      if (distance < MOUSE_RADIUS) {
+        node.brightness = 1 - distance / MOUSE_RADIUS;
+      } else {
+        node.brightness = 0;
+      }
+    }
+    for (i = 0; i < NODES_QTY; i++) {
+      node = nodes[i];
+      if (node.brightness) {
+        node.drawNode();
+        node.drawConnections();
+      }
+      node.moveNode();
+    }
+    requestAnimationFrame(redrawScene);
+  }
 
+  function initHandlers() {
+    document.addEventListener('resize', resizeWindow, false);
+    canvas.addEventListener('mousemove', mousemoveHandler, false);
+  }
+
+  function resizeWindow() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function mousemoveHandler(e) {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  }
+
+  initHandlers();
+  initNodes();
+  redrawScene();
+})();
         
         
     <center>
